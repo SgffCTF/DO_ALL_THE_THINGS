@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: mv main.py __main__.py
+
+      - run: zip datt.zip -r scenarios/ __main__.py utils.py
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.0.1-${{ github.run_number }}
+          name: "Build v0.0.1-${{ github.run_number }}"
+          files: datt.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
