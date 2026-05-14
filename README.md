@@ -15,5 +15,5 @@ initialization script for AD CTF (init repos, SAST, and more)
 curl -L $(curl -s https://api.github.com/repos/SgffCTF/DO_ALL_THE_THINGS/releases/latest | grep browser_download_url | cut -d '"' -f 4) -o datt.zip
 python3 -m venv venv
 source venv/bin/activate
-python3 datt.zip \<scenario> \<options>
+python3 datt.zip <scenario> <options>
 ```
