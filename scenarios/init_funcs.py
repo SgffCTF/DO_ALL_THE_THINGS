@@ -56,9 +56,6 @@ def git_init_and_commit(path: Path):
 def init_services(base_dir: Path):
     base_dir = base_dir.expanduser().resolve()
 
-    if not base_dir.exists():
-        raise FileNotFoundError(base_dir)
-
     ensure_git()
     ensure_semgrep()
 

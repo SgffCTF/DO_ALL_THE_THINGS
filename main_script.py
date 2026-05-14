@@ -13,8 +13,11 @@ def main():
     args = parser.parse_args()
 
     if args.cmd == "init":
+        
+        if not Path(args.dir).exists():
+            raise FileNotFoundError(args.dir)
+        
         init_services(Path(args.dir))
-
 
 if __name__ == "__main__":
     main()
