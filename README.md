@@ -4,7 +4,7 @@ initialization script for AD CTF (init repos, SAST, and more)
 
 ## Structure
 
-- main_script.py - router
+- main.py - router
 - utils.py - utility layer
 - scenarious - directory to store different scenarious (init, sast etc.)
 - scenarios/*_funcs.py - func files for scenarios
@@ -12,8 +12,8 @@ initialization script for AD CTF (init repos, SAST, and more)
 ## Usage
 
 ```bash
-curl -L $(curl -s https://api.github.com/repos/SgffCTF/DO_ALL_THE_THINGS/releases/latest | grep browser_download_url | cut -d '"' -f 4) -o datt.zip
+git clone https://github.com/SgffCTF/DO_ALL_THE_THINGS
 python3 -m venv venv
 source venv/bin/activate
-python3 datt.zip <scenario> <options>
+python3 main.py <scenario> <options>
 ```
