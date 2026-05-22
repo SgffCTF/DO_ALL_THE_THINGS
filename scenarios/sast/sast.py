@@ -1,6 +1,8 @@
 from pathlib import Path
 from utils import run, sarif_to_html
 from datetime import datetime
+import subprocess
+
 
 RUN_ID = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -9,6 +11,20 @@ REPORTS_DIR = Path.cwd() / "reports" / RUN_ID
 BASE_DIR = Path(__file__).resolve().parents[0]
 
 SEMGREP_RULES_DIR = BASE_DIR / "semgrep_rules"
+
+
+def ensure_semgrep():
+    try:
+        subprocess.run(
+            ["semgrep", "--version"],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        print("[+] semgrep already installed")
+    except Exception:
+        print("[+] Installing semgrep...")
+        run(["python3", "-m", "pip", "install", "semgrep"])
 
 
 def collect_rules(rules_dir: Path):
@@ -41,7 +57,7 @@ def scan_semgrep(target: Path, report_path: Path):
         str(report_path),
     ]
 
-    # add all rules
+    # add all local rules
     for rule in rules:
         cmd += ["--config", str(rule)]
 
@@ -77,6 +93,9 @@ def sast_scan(base_dir: Path):
             try:
                 sarif_file = REPORTS_DIR / f"{item.name}.sarif"
                 html_file = REPORTS_DIR / f"{item.name}.html"
+                
+                # 1. ensure semgrep
+                ensure_semgrep()
 
                 # 1. scan
                 scan_semgrep(item, sarif_file)

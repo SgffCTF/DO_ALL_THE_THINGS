@@ -4,6 +4,7 @@ from scenarios.init.init_funcs import init_services
 from scenarios.sast.sast import sast_scan
 
 
+# роутер сценариев
 def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest="cmd", required=True)
@@ -18,6 +19,7 @@ def main():
 
     if args.cmd == "init":
         
+        # существует ли директория
         if not Path(args.dir).exists():
             raise FileNotFoundError(args.dir)
         
@@ -25,10 +27,12 @@ def main():
 
     elif args.cmd == "scan":
 
+        # существует ли директория
         if not Path(args.dir).exists():
             raise FileNotFoundError(args.dir)
 
         sast_scan(Path(args.dir))
+
 
 if __name__ == "__main__":
     main()

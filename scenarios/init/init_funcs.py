@@ -16,20 +16,6 @@ def ensure_git():
         raise EnvironmentError("git is not installed")
 
 
-def ensure_semgrep():
-    try:
-        subprocess.run(
-            ["semgrep", "--version"],
-            check=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-        print("[+] semgrep already installed")
-    except Exception:
-        print("[+] Installing semgrep...")
-        run(["python3", "-m", "pip", "install", "semgrep"])
-
-
 def git_init_and_commit(path: Path):
     if not (path / ".git").exists():
         run(["git", "init"], cwd=path)
@@ -57,7 +43,6 @@ def init_services(base_dir: Path):
     base_dir = base_dir.expanduser().resolve()
 
     ensure_git()
-    ensure_semgrep()
 
     for item in base_dir.iterdir():
         if item.is_dir():

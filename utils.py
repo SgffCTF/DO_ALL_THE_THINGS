@@ -3,11 +3,13 @@ from pathlib import Path
 import json
 import html
 
+
 def run(cmd, cwd=None):
     print(f"[+] Running: {' '.join(cmd)} (cwd={cwd})")
     subprocess.run(cmd, cwd=cwd, check=True)
 
 
+# функция для перевода сырых sarif отчетов от semgrep в красивый html
 def sarif_to_html(sarif_path: Path, html_path: Path):
     data = json.loads(sarif_path.read_text())
 
