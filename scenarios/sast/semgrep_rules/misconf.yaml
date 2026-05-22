@@ -1,0 +1,94 @@
+rules:
+
+  #
+  # =========================
+  # EXPOSED DATABASES
+  # =========================
+  #
+
+  - id: exposed-postgres
+    message: PostgreSQL exposed to host
+    severity: ERROR
+    languages: [yaml]
+
+    pattern-regex: |
+      ['"]?(0\.0\.0\.0:)?[0-9]+:5432(:5432)?['"]?
+
+  - id: exposed-mysql
+    message: MySQL exposed to host
+    severity: ERROR
+    languages: [yaml]
+
+    pattern-regex: |
+      ['"]?(0\.0\.0\.0:)?[0-9]+:3306(:3306)?['"]?
+
+  - id: exposed-mongodb
+    message: MongoDB exposed to host
+    severity: ERROR
+    languages: [yaml]
+
+    pattern-regex: |
+      ['"]?(0\.0\.0\.0:)?[0-9]+:27017(:27017)?['"]?
+
+  - id: exposed-redis
+    message: Redis exposed to host
+    severity: ERROR
+    languages: [yaml]
+
+    pattern-regex: |
+      ['"]?(0\.0\.0\.0:)?[0-9]+:6379(:6379)?['"]?
+
+  - id: exposed-elasticsearch
+    message: Elasticsearch exposed to host
+    severity: WARNING
+    languages: [yaml]
+
+    pattern-regex: |
+      ['"]?(0\.0\.0\.0:)?[0-9]+:9200(:9200)?['"]?
+
+
+  #
+  # =========================
+  # HARDCODED SECRETS
+  # =========================
+  #
+
+  - id: hardcoded-password
+    message: Hardcoded password in compose
+    severity: ERROR
+    languages: [yaml]
+
+    pattern-regex: |
+      (?i)(password|passwd|pwd)\s*[:=]\s*['"]?[a-zA-Z0-9_\-./+=]{4,}
+
+  - id: hardcoded-secret
+    message: Hardcoded secret/token/api key
+    severity: ERROR
+    languages: [yaml]
+
+    pattern-regex: |
+      (?i)(secret|token|api[_-]?key)\s*[:=]\s*['"]?[a-zA-Z0-9_\-./+=]{6,}
+
+  - id: hardcoded-cookie-secret
+    message: Hardcoded cookie/session secret
+    severity: ERROR
+    languages: [yaml]
+
+    pattern-regex: |
+      (?i)(cookie|session).*secret
+
+  - id: aws-secret
+    message: AWS secret detected
+    severity: ERROR
+    languages: [yaml]
+
+    pattern-regex: |
+      AKIA[0-9A-Z]{16}
+
+  - id: jwt-secret
+    message: JWT secret present
+    severity: ERROR
+    languages: [yaml]
+
+    pattern-regex: |
+      (?i)jwt.*secret
