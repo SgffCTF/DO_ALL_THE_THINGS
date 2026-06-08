@@ -57,10 +57,20 @@ def scan_semgrep(target: Path, report_path: Path):
         str(report_path),
     ]
 
-    # add all local rules
+
+    # add custom rules
     for rule in rules:
         cmd += ["--config", str(rule)]
-
+    
+    # add public rules
+    cmd += ["--config", "p/secrets"]
+    cmd += ["--config", "p/golang"]
+    cmd += ["--config", "p/python"]
+    cmd += ["--config", "p/security-audit"]
+    cmd += ["--config", "p/owasp-top-ten"]
+    cmd += ["--config", "p/cwe-top-25"]
+    cmd += ["--config", "p/minusworld.sql-injection"]
+    
     cmd += ["."]
 
     print(f"[+] Starting semgrep scan: {target}")
